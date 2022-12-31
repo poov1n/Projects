@@ -1,4 +1,6 @@
-
+# change the file path D:\Desktop\FIM\baseline.txt and D:\Desktop\FIM\Files in the script based on project scenario
+# D:\Desktop\FIM\baseline.txt - is the saved baseline file 
+# D:\Desktop\FIM\Files - folder where the files are stored
 
 Write-Host "  "
 
