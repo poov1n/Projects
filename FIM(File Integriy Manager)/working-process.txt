@@ -1,0 +1,29 @@
+Working 
+
+ 
+
+FIM --> Start -->  
+
+Ask user what they want to do 
+
+A) Collect new baseline 
+
+B) Begin monitoring files with saved baseline 
+
+ 
+
+A) --> Calculate Hash value from Target files (Hash is taking the digital thumbprint of a text file and stores in a text file) 
+
+     --> Store the file or Hash pairs in Baseline.txt 
+
+ 
+
+B) --> Load file or Hash pair from the existing Baseline.txt 
+
+     --> Loop through each target file, calculate the hash and compare the file or hash to baseline.txt 
+
+     --> Notify user if a file is changed or deleted 
+
+     --> If a file's actual hash is different than what is recorded in baseline, print in the screen. 
+
+If a file is deleted, says Integrity Compromise 
