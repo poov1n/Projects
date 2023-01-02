@@ -23,7 +23,7 @@ After catching the logs, we run a powershell script inside the machine and by us
 
 <p align="Left">
 - Creating a VM in Azure – open to attackers, (disable firewall/enable icmp to be accessed to ping req) <br/>
-- Add the powershell script to the VM and run in powershell ise
+- Add the powershell script to the VM and run in powershell ise - <a href="https://github.com/V4g4b0nd/Projects/raw/main/Azure_Sentinal/failed_login_powershell.ps1">PS Script!</a> <br/>
 - Create a Log Analytics workspace and add the VM to that so that it can ingest the logs from it <br/>
 - We use the IP from the failed login and programmatically (using PowerShell) maps out the country, place from IP geolocation <br/>
 - Create an Azure Sentinel (SIEM) - Microsoft cloud native SIEM—and it create a map that maps all the different attacker data  <br/>
