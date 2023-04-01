@@ -30,7 +30,7 @@ Just a simple demonstration inspired from the video of John Hammond to bypass 2F
   - Hosting the app publically <br/>
 <img src="https://imgur.com/nIfYUfs.png" height="50%" width="50%" alt="Server1"/></br>
   - The webpage being accessed by the victim by clicking on a spam email or dodgy link and try logging in with the password</br>
-<img src="https://imgur.com/AaMRQyp.png" height="50%" width="50%" alt="victim1"/></br>
+<img src="https://imgur.com/s7NERDG.png" height="50%" width="50%" alt="victim1"/></br>
   - The attacker is prompted with the password of the account in the terminal when the victim press next</br>
  <img src = "https://imgur.com/fqrZ15h.png" height="50%" width="50%" alt="server2"/></br>
   - The victim is then prompted with the page to enter the Verification code that is being sent to the phone</br>
