@@ -1,3 +1,3 @@
 # Projects
 
-Fun projects on Infosec, scripts
+Fun projects and scripts 
