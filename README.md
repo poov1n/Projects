@@ -1,3 +1,3 @@
 # Projects
 
-Various projects based on security interest
+Fun projects on Infosec, scripts
