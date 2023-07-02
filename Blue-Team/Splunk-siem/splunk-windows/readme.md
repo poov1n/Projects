@@ -33,8 +33,6 @@ This is used by security team to identify and respond to internal and external a
         
         Sudo /opt/splunk/bin/splunk enable boot-start
 ->Accept the license and provide an username and password for the administrator account<br/>
-  <img src= "https://imgur.com/LI9E9so.png" height="50%" width="50%"> 
-  <br/>
   <img src = "https://imgur.com/fiZnu64.png" height="50%" width="50%"><br/>
 ->Splunk web console is using port 8000, so we need to allow port 8000 on firewall <br/>
 
@@ -52,7 +50,7 @@ This is used by security team to identify and respond to internal and external a
 ->Browse to the "serverip:8000" to access the splunk server<br/>
   <img src = "https://imgur.com/W0tZhh5.png" height="50%" width="50%">
 ->Login using the created credentials and we would be able to see the Splunk Enterprise <br/>
-  <img src = "https://imgur.com/RUjDlHh.png" height="50%" width="50%">
+
 
 <h2>2. Configuring Splunk server to receive logs</h2>
 <p align="Left">
