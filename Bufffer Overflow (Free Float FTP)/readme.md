@@ -16,7 +16,8 @@ An explanation of the steps to follow while performing a buffer overflow hack an
 - <b>Download or Install <a href = "https://debugger.immunityinc.com/ID_register.py">Immunity Debugger</a> and the <a href = "https://www.exploit-db.com/exploits/23243">Free Float</a> FTP server onto the Windows XP</b> 
 - <b>Download the <a href = "https://github.com/corelan/mona/blob/master/mona.py">mona.py</a> file to Windows XP</b>
 - <b>Need Metasploit and SPIKE tools on the Pentest box (Here, I won't be using spike script but would manually exploit the application)</b>
- 
+- <b>Note: Turn off the Windows Antivirus as the FTP server would get blocked by Windows Security</b>
+
 <h2>The Memory Anatomy</h2>
 <p align="Left">
 <img src = "https://www.coengoedegebure.com/content/images/2018/04/ram-1.png" height="20%" width="20%"></br>
@@ -42,6 +43,26 @@ If not and we have characters that require more space than the existing buffer s
 -> Finding the module</br>
 -> Generate shellcode and get root access</br>
 
+<h2>Attack Walkthrough</h2>
+So, the Freefloat FTP Server is an application which is vulnerable to Buffer Overflow. We need to run both the Immunity Debugger and FTP server as an administrator.</br>
+We can import the FTP Server to Immunity in two ways, whether we can File > Open > FTP server or File > Attach > Attach the FTP server to Immunity. 
+<img src ="https://imgur.com/MKRLeRq.png"height="40%" width="40%"</br>
+<img src ="https://imgur.com/jtMd1H1.png"height="40%" width="40%"</br>
+We can see that the application is Paused in Immunity (In the bottom right Corner). For testing the application it should be in Running mode.
+We can press the play button to run the Programme or press F9 on the keyboard.</br>
+Some Immunity Shortcuts to save our time.</br>
+
+    Press f9 or Play button to start the server!
+    Ctrl + F2 to Restart the programme
+<h3>1. Spiking</h3>
+Spiking is used to find a part of a programme which is vulnerable to Buffer Overflow</br>
+Start the programme in Immunity and Connect to the FTP server from the Attack box using NetCat</br>
+
+Spiking can be done in two ways, we can either manually provide a set of characters to the application and make it crash or use the generic_send_tcp command to break the programme.</br>
+
+    
+
+     
 
 
   
