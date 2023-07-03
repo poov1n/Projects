@@ -117,9 +117,23 @@ To figure out whether we can predict the EIP let's fill in the character "A" til
 Let's pass it to the application and see whether we would get **42424242** as the EIP value (42 is the hex value of "B")</br>
 <img src = "https://imgur.com/j6SFBW5.png" height="40%" width="40%"></br>    
 The application crashed and we can see the EIP is overwritten by **42424242** (Character "B").</br>
-<img src = "https://imgur.com/90Tu7Fk.png" height="40%" width="40%"></br> 
+<img src = "https://imgur.com/90Tu7Fk.png" height="40%" width="40%"></br>
 
-     
+<h3>3. Finding the Modules</h3>
+<h4>3.1 Setting up Mona</h4>
+For finding the right Module, we could use Mona.py script for finding the right modules and files which we could use for exploitation.</b>
+For setting up Mona.py, we just need to copy the script to the below location</br>
+
+    c:\Program Files\Immunity Inc\Immunity Debugger\PyCommands
+    
+<img src = "https://imgur.com/f6PPM70.png" height="40%" width="40%"></br>
+To invoke Mona just type **!mona** on the bottom space and press Enter</br>
+<img src = "https://imgur.com/SKiMCFK.png" height="40%" width="40%"></br>
+
+<h4>3.2 Setting up Mona</h4>
+
+
+
 
 
   
