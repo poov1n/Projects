@@ -119,7 +119,8 @@ Let's pass it to the application and see whether we would get **42424242** as th
 The application crashed and we can see the EIP is overwritten by **42424242** (Character "B").</br>
 <img src = "https://imgur.com/90Tu7Fk.png" height="40%" width="40%"></br>
 
-<h3>3. Finding the Modules</h3>
+<h3>3. Finding the Module</h3>
+
 <h4>3.1 Setting up Mona</h4>
 For finding the right Module, we could use Mona.py script for finding the right modules and files which we could use for exploitation.</b>
 For setting up Mona.py, we just need to copy the script to the below location</br>
@@ -130,8 +131,9 @@ For setting up Mona.py, we just need to copy the script to the below location</b
 To invoke Mona just type **!mona** on the bottom space and press Enter</br>
 <img src = "https://imgur.com/SKiMCFK.png" height="40%" width="40%"></br>
 
-<h4>3.2 Finding Bad characters </h4>
-So before finding the module, we need to figure out which characters are good for the code and which all are bad.</br>
+<h3>4. Creating a Shell Code</h3>
+<h4>4.1 Finding Bad characters </h4>
+Before creating the shell code, we need to figure out which characters are good for the code and which all are bad.</br>
 We can find it by running all the hex characters through the program and how it parses out. </br>
 We are doing this because some characters may be used by the application for a particular function and we do not want to include it in our code, which would break it.</br>
         
@@ -151,8 +153,21 @@ We are doing this because some characters may be used by the application for a p
 	"\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0"
 	"\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0"
 	"\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff")
-For this let's use a Python script, to make our life easier! </br>
+For this let's use a Python <a href = "https://raw.githubusercontent.com/V4g4b0nd/Projects/main/Bufffer%20Overflow%20(Free%20Float%20FTP)/badcharacters.py">script</a>, to make our life easier! </br>
 
+Upon running the script, we could see that the Immunity got paused, right-click the ESP and select follow in Dump.</br>
+We would be able to see our payload and there is a difference after 09, we are seeing 2E which is not what we provided.</br>
+<img src = "https://imgur.com/vAHR5mo.png" height="40%" width="40%"></br>
+Now we know that **0xa** is a bad character and shouldn't be used in our payload.</br>
+Let's remove that in our script and run it again</br>
+<img src = "https://imgur.com/qJoQpog.png" height="40%" width="40%"></br>
+Again the programme will crash, right click on ESP value and select Follow in Dump.</br>
+We could see that the letters B and C are showing up but again we are seeing the 2E, let's remove the **0xd** which is a bad character and run it again.</br>
+<img src = "https://imgur.com/Sd9OPNv.png" height="40%" width="40%"></br>
+Now we are able to see all the characters just like we intended. So the bad characters that we need to avoid are</br>
+
+ 	0x0(which is always a bad character), 0xa,0xd
+<img src = "https://imgur.com/eDcPUk8.png" height="40%" width="40%"></br>
 
 
 
