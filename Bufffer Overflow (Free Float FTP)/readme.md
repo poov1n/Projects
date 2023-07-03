@@ -105,13 +105,19 @@ Let's find the offset value using msf-pattern_offset. We need to pass the charac
 
 We found the offset at **230**
 
-    
+<h3>2. Overwriting the EIP</h3>
+Let's overwrite and control the EIP.</b>
+Now we know the total length is 976 and the offset is at 230. The EIP contains a total of 4 characters and it starts after the offset value.</br>
+To figure out whether we can predict the EIP let's fill in the character "A" till the offset value and the next 4 characters as "B" followed by "C" till the end of our total length</b>
 
-
-
-    
-
-    
+    Total Character length = 976
+    Offset = 230 (Filled by "A")
+    EIP length = 4 (Filled by "B")
+    Remaining Character length = 976-230-4 = 742 (Filled by "C")
+Let's pass it to the application and see whether we would get **42424242** as the EIP value (42 is the hex value of "B")</br>
+<img src = "https://imgur.com/j6SFBW5.png" height="40%" width="40%"></br>    
+The application crashed and we can see the EIP is overwritten by **42424242** (Character "B").</br>
+<img src = "https://imgur.com/90Tu7Fk.png" height="40%" width="40%"></br> 
 
      
 
@@ -134,9 +140,7 @@ We found the offset at **230**
   
   
   
-  
-  
-  
+
 
 
 <!--
