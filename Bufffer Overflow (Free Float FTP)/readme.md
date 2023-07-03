@@ -54,32 +54,58 @@ Some Immunity Shortcuts to save our time.</br>
 
     Press f9 or Play button to start the server!
     Ctrl + F2 to Restart the programme
-<h3>1. Spiking</h3>
+<h3>1. Spiking and Fuzzing</h3>
 Spiking is used to find a part of a programme which is vulnerable to Buffer Overflow</br>
 Start the programme in Immunity and Connect to the FTP server from the Attack box using NetCat</br>
 
-    nc 192.168.1.48 21
-
+    nc 192.168.1.56 21
+<img src = "https://imgur.com/ojDMkSv.png" height="40%" width="40%"></br>
 Spiking can be done in two ways, we can either manually provide a set of characters to the application and make it crash or use the generic_send_tcp command to break the programme.</br>
-FTP allows a command USER, PASS and so on. So let's try to add 1000 "A" characters to the USER command and see whether it crashes the programme.</br>
-
-It crashed the programme. Let's see how many characters it took before crashing it. For getting the accurate total value of the buffer, we could subtract the EIP from ESP</br>
+FTP allows a command USER, PASS and so on. So let's try to add 1000 "A" characters to the USER command and see whether it crashes the programme. We can use Python to print 1000 characters and pass it to the FTP server.</br>
+<img src = "https://imgur.com/Hvs1sSk.png" height="40%" width="40%"></br>
+The application paused in the Immunity showing that the programme crashed. Let's see how many characters it took before crashing it. To get the accurate total value of the buffer, we could subtract the ESP and EIP</br>
+<img src = "https://imgur.com/6u2eABR.png" height="40%" width="40%"></br>
+In the Registers, we could see the ESP and EIP values. We can see the "A" characters that we passed to the application.In the EIP we could see it is showing as 41414141 which states that EIP holds 4 bytes of characters.(41 is the hex value of "A")
 Right-click the ESP value and select Follow in Dump</br>
+<img src = "https://imgur.com/9YfnZou.png" height="40%" width="40%"></br>
+In the bottom left box, we can see the "A" characters, lets note down the Address from which the character started till it crashed.</br>
+<img src = "https://imgur.com/lxE8ncn.png" height="40%" width="40%"></br>
+<img src = "https://imgur.com/OacB96Y.png" height="40%" width="40%"></br>
 
-<img src = "https://imgur.com/vzwIRn1.png" height="40%" width="40%"></br>
-In the bottom left box, we can see the "A" characters, lets note down the pointers from which the character started till it crashed.</br>
-<img src = "https://imgur.com/EcszUSm.png" height="40%" width="40%"></br>
-
-<img src = "https://imgur.com/CldzkMs.png" height="40%" width="40%"></br>
-
-We can see it started from 0291FAE8 and ended in 0291FEC8 (The hex value of "A" is 41)</br>
-
+We can see the characters started from 00B3FB3C and ended in 00B3FF0C </br>
 Let's try to subtract the value in Python to see the total number of  characters</br>
 To do that we need to add '0x' in the beginning</br>
 
-<img src = "https://imgur.com/mZunjdu.png" height="40%" width="40%"></br>
-So a total of 920 lengths of characters would crash the programme.</br>
+    python3
+    0x00B3FB3C - 0x00B3FF0C
 
+<img src = "https://imgur.com/HUK7a7x.png" height="40%" width="40%"></br>
+So a total lengths of **976** characters would crash the programme.</br>
+
+<h3>2. Finding Offset</h3>
+<p>
+For finding the Offset we could use the pattern_create and pattern_offset tools of Metasploit</br> 
+So Offset is the part where the characters would start moving into the EIP</br>
+First, let's create random characters with 976 strings long using msf-pattern_create</br>
+
+        msf-pattern_create -l 976
+<img src = "https://imgur.com/CYRw10p.png" height="40%" width="40%"></br>
+Pass this string onto the application and note down the EIP value</br>
+**Note= After each time the programme crashes, we need to restart it inside the immunity debugger using ctrl+F2 and the programme should be in Running mode.**</br>
+
+<img src = "https://imgur.com/8CY3x4c.png" height="40%" width="40%"></br>
+
+The programme is crashed and the EIP value is **37684136** </br>
+<img src = "https://imgur.com/fIQdoaa.png" height="40%" width="40%"></br>
+
+Let's find the offset value using msf-pattern_offset. We need to pass the character length used along with the EIP value in query</b>
+
+    msf-pattern_offset -l 976 -q 37684136
+<img src = "https://imgur.com/Kgmuv0B.png" height="40%" width="40%"></br>
+
+We found the offset at **230**
+
+    
 
 
 
