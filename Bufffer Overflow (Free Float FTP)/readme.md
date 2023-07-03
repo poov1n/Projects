@@ -1,7 +1,7 @@
 <h1>Practical Buffer Overflow with  FreeFloat FTP Server</h1>
 
 <h2>Description</h2>
-An explanation of the steps to follow while performing a buffer overflow hack and showing it off on the FreeFloat FTP Server. 
+An explanation of the Buffer Overflow attack and describing the methodology as a Walkthrough on the FreeFloat FTP Server. 
 <br />
 
 <h2>Lab Setup</h2>
@@ -68,7 +68,7 @@ The application paused in the Immunity showing that the programme crashed. Let's
 In the Registers, we could see the ESP and EIP values. We can see the "A" characters that we passed to the application.In the EIP we could see it is showing as 41414141 which states that EIP holds 4 bytes of characters.(41 is the hex value of "A")
 Right-click the ESP value and select Follow in Dump</br>
 <img src = "https://imgur.com/9YfnZou.png" height="40%" width="40%"></br>
-In the bottom left box, we can see the "A" characters, lets note down the Address from which the character started till it crashed.</br>
+In the bottom left box, we can see the "A" characters, Let's note down the Address from which the character started till it crashed.</br>
 <img src = "https://imgur.com/lxE8ncn.png" height="40%" width="40%"></br>
 <img src = "https://imgur.com/OacB96Y.png" height="40%" width="40%"></br>
 
@@ -122,7 +122,7 @@ The application crashed and we can see the EIP is overwritten by **42424242** (C
 <h3>3. Finding the Module</h3>
 
 <h4>3.1 Setting up Mona</h4>
-For finding the right Module, we could use Mona.py script for finding the right modules and files which we could use for exploitation.</b>
+We can use the Mona.py script for finding the right modules and files which could be useful for exploitation.</b>
 For setting up Mona.py, we just need to copy the script to the below location</br>
 
     c:\Program Files\Immunity Inc\Immunity Debugger\PyCommands
@@ -130,6 +130,17 @@ For setting up Mona.py, we just need to copy the script to the below location</b
 <img src = "https://imgur.com/f6PPM70.png" height="40%" width="40%"></br>
 To invoke Mona just type **!mona** on the bottom space and press Enter</br>
 <img src = "https://imgur.com/SKiMCFK.png" height="40%" width="40%"></br>
+
+<h4>3.2 Back to Module selection</h4>
+When selecting a module, We are looking for a dll or similar  which do not have any memory protection</br>
+We can use Mona for this type the command on the white bar to see the list of available modules</br>
+
+	!mona modules
+
+<img src = "https://imgur.com/pUjp5mR.png" height="40%" width="40%"></br>
+An ideal candidate for a module would be All False, but anything with a ASLR as False can be picked as a candidate</br>
+Here, we can select the **SHELL.dll** as our module</br> 
+
 
 <h3>4. Creating a Shell Code</h3>
 <h4>4.1 Finding Bad characters </h4>
