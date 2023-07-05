@@ -1,7 +1,7 @@
 <h1>Practical Buffer Overflow with  FreeFloat FTP Server</h1>
 
 <h2>Description</h2>
-An explanation of the Buffer Overflow attack and describing the methodology as a Walkthrough on the FreeFloat FTP Server. 
+A walkthrough illustrating the methodology of the Buffer Overflow attack, focusing on the FreeFloat FTP Server. 
 <br />
 
 <h2>Lab Setup</h2>
